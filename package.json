@@ -1,0 +1,40 @@
+{
+  "name": "trading-bot",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Research-first Binance spot trading bot in TypeScript: honest net-of-cost backtests, testnet and capped live modes, defence-in-depth guardrails.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.12"
+  },
+  "scripts": {
+    "test": "npm run -s guardrail:test && npm run -s failure:test && npm run -s donchian:test",
+    "typecheck": "tsc --noEmit -p .",
+    "scan": "node --env-file-if-exists=.env -r ts-node/register src/index.ts scan",
+    "replay:raw": "node --env-file-if-exists=.env -r ts-node/register src/replay.ts",
+    "replay:memory": "node --env-file-if-exists=.env -r ts-node/register src/replayMemory.ts",
+    "replay:windows": "node --env-file-if-exists=.env -r ts-node/register src/replayWindows.ts",
+    "sweep": "node --env-file-if-exists=.env -r ts-node/register src/sweep.ts",
+    "backtest": "node --env-file-if-exists=.env -r ts-node/register src/backtestSignal.ts",
+    "robustness": "node --env-file-if-exists=.env -r ts-node/register src/robustness.ts",
+    "periods": "node --env-file-if-exists=.env -r ts-node/register src/periods.ts",
+    "memory:reset": "node -r ts-node/register src/memoryReset.ts",
+    "guardrail:test": "node -r ts-node/register src/guardrailTest.ts",
+    "failure:test": "node -r ts-node/register src/failureTest.ts",
+    "broker:check": "node --env-file-if-exists=.env -r ts-node/register src/brokerCheck.ts",
+    "broker:preview": "node --env-file-if-exists=.env -r ts-node/register src/brokerPreview.ts",
+    "broker:testorder": "node --env-file-if-exists=.env -r ts-node/register src/brokerTestOrder.ts",
+    "broker:trade": "node --env-file-if-exists=.env -r ts-node/register src/brokerLive.ts --once",
+    "broker:live": "node --env-file-if-exists=.env -r ts-node/register src/brokerLive.ts",
+    "live:check": "node --env-file-if-exists=.env -r ts-node/register src/liveCheck.ts",
+    "live:trade": "node --env-file-if-exists=.env -r ts-node/register src/brokerLiveReal.ts",
+    "env:doctor": "node --env-file-if-exists=.env -r ts-node/register src/envDoctor.ts",
+    "donchian:test": "node -r ts-node/register src/donchianTest.ts",
+    "state:init": "node -r ts-node/register src/stateInit.ts"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4",
+    "ts-node": "^10.9.2",
+    "@types/node": "^20.14.10"
+  }
+}

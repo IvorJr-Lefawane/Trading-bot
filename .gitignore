@@ -1,0 +1,28 @@
+# --- Secrets: never commit ---------------------------------------------------
+# .env holds API keys (testnet AND live). Only the blank template is public.
+.env
+.env.*
+!.env.example
+
+# --- Bot state and trade history: never commit -------------------------------
+# data/ holds the ledger, learnings, paper/testnet/live position state and the
+# HALT kill switch. It describes a real account, so the whole folder stays local.
+data/
+*.tmp
+
+# --- Build output and dependencies -------------------------------------------
+node_modules/
+dist/
+*.tsbuildinfo
+
+# --- Local working notes (superseded by docs/RESEARCH_LOG.md) ----------------
+trading_bot_instructions.md
+
+# --- Logs and OS / editor clutter ---------------------------------------------
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/

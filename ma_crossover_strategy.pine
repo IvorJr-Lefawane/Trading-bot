@@ -1,0 +1,37 @@
+//@version=5
+strategy("9/21 MA Crossover (BTCUSDT 5m)", overlay=true,
+     default_qty_type=strategy.percent_of_equity, default_qty_value=100,
+     commission_type=strategy.commission.percent, commission_value=0.1,
+     slippage=1)
+
+// ---- Inputs ----
+fastLen   = input.int(9,  title="Fast MA Length")
+slowLen   = input.int(21, title="Slow MA Length")
+slPerc    = input.float(1.0, title="Stop Loss %")   / 100
+tpPerc    = input.float(2.0, title="Take Profit %") / 100
+
+// ---- Indicators ----
+fastMA = ta.sma(close, fastLen)
+slowMA = ta.sma(close, slowLen)
+
+bullishCross = ta.crossover(fastMA, slowMA)
+bearishCross = ta.crossunder(fastMA, slowMA)
+
+// ---- Entries / Exits ----
+// Long-only, matches the bot: BUY on bullish crossover, SELL/exit on bearish crossover.
+if bullishCross
+    strategy.entry("Long", strategy.long)
+
+if bearishCross
+    strategy.close("Long")
+
+// Explicit stop-loss / take-profit on the open long, using the entry price (no repainting)
+if strategy.position_size > 0
+    entryPrice = strategy.position_avg_price
+    strategy.exit("SL/TP", from_entry="Long",
+         stop  = entryPrice * (1 - slPerc),
+         limit = entryPrice * (1 + tpPerc))
+
+// ---- Plot ----
+plot(fastMA, color=color.blue,   title="Fast MA (9)")
+plot(slowMA, color=color.orange, title="Slow MA (21)")
